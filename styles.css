@@ -1,0 +1,92 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+.header {
+    background: white;
+    padding: 12px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.header h1 { text-align: center; font-size: 20px; color: #333; }
+.tabs {
+    display: flex;
+    background: white;
+    border-bottom: 2px solid #e0e0e0;
+}
+.tab {
+    flex: 1;
+    padding: 16px;
+    background: #f5f5f5;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #666;
+}
+.tab.active {
+    background: white;
+    color: #667eea;
+    border-bottom: 3px solid #667eea;
+}
+.content { padding: 16px; }
+.bus-stop {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.bus-stop-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.line-number {
+    background: #667eea;
+    color: white;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 18px;
+    margin-right: 12px;
+}
+.line-number.line-30 { background: #e74c3c; }
+.stop-name { font-size: 16px; font-weight: 600; color: #333; flex: 1; }
+.refresh-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 0px 6px 6px 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 25px;
+}
+.loading { text-align: center; padding: 20px; color: #666; }
+.warning {
+    background: #fff3cd;
+    padding: 12px;
+    color: #856404;
+    border-radius: 8px;
+    margin: 12px 0;
+}
+.error {
+    background: #fee;
+    padding: 12px;
+    color: #c33;
+    border-radius: 8px;
+    margin: 12px 0;
+}
+.bus-time {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.bus-time:last-child { border-bottom: none; }
+.destination { font-size: 14px; color: #666; }
+.time { font-size: 20px; font-weight: bold; color: #667eea; }
+.hidden { display: none; }
+.last-update { text-align: center; color: white; margin-top: 12px; font-size: 12px; }
