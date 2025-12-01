@@ -12,11 +12,11 @@ const STOP_CODES = {
         line: "bordeaux:Line:30:LOC"
     },
     "51-dassault": { 
-        stop: "bordeaux:StopPoint:BP:8649:LOC",
+        stop: "bordeaux:StopPoint:BP:8650:LOC",
         line: "bordeaux:Line:51:LOC"
     },
     "30-chemin": { 
-        stop: "bordeaux:StopPoint:BP:5754:LOC",
+        stop: "bordeaux:StopPoint:BP:1145:LOC",
         line: "bordeaux:Line:30:LOC"
     }
 };
@@ -143,4 +143,5 @@ async function refreshAllStops() {
 }
 
 // Rafraîchissement automatique toutes les 30 secondes
+
 setInterval(refreshAllStops, 30000);
