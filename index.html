@@ -4,6 +4,9 @@
     <title>Horaires Bus TBM</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#667eea">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -24,20 +27,42 @@
         <div id="aller-content">
             <div class="bus-stop">
                 <div class="bus-stop-header">
-                    <div class="line-number">51</div>
-                    <div class="stop-name">Mérignac Centre</div>
-                    <button class="refresh-btn" onclick="refreshStop('51-merignac')">⟳</button>
+                    <div class="stop-name">📍 Mérignac Centre (Médiathèque)</div>
+                    <button class="refresh-btn" onclick="refreshStop('merignac-centre')">⟳</button>
                 </div>
-                <div id="bus-51-merignac"><div class="loading">⏳ Chargement…</div></div>
+                <div id="bus-merignac-centre"><div class="loading">⏳ Chargement…</div></div>
             </div>
 
             <div class="bus-stop">
                 <div class="bus-stop-header">
-                    <div class="line-number line-30">30</div>
-                    <div class="stop-name">Avenue du Truc</div>
-                    <button class="refresh-btn" onclick="refreshStop('30-truc')">⟳</button>
+                    <div class="stop-name">📍 Avenue du Truc</div>
+                    <button class="refresh-btn" onclick="refreshStop('avenue-truc')">⟳</button>
                 </div>
-                <div id="bus-30-truc"><div class="loading">⏳ Chargement…</div></div>
+                <div id="bus-avenue-truc"><div class="loading">⏳ Chargement…</div></div>
+            </div>
+
+            <div class="bus-stop">
+                <div class="bus-stop-header">
+                    <div class="stop-name">📍 Beaudésert</div>
+                    <button class="refresh-btn" onclick="refreshStop('beaudesert')">⟳</button>
+                </div>
+                <div id="bus-beaudesert"><div class="loading">⏳ Chargement…</div></div>
+            </div>
+
+            <div class="bus-stop">
+                <div class="bus-stop-header">
+                    <div class="stop-name">📍 Dassault</div>
+                    <button class="refresh-btn" onclick="refreshStop('dassault-39')">⟳</button>
+                </div>
+                <div id="bus-dassault-39"><div class="loading">⏳ Chargement…</div></div>
+            </div>
+
+            <div class="bus-stop">
+                <div class="bus-stop-header">
+                    <div class="stop-name">📍 5 Chemins (Le Haillan)</div>
+                    <button class="refresh-btn" onclick="refreshStop('5-chemins-39')">⟳</button>
+                </div>
+                <div id="bus-5-chemins-39"><div class="loading">⏳ Chargement…</div></div>
             </div>
         </div>
 
@@ -45,20 +70,42 @@
         <div id="retour-content" class="hidden">
             <div class="bus-stop">
                 <div class="bus-stop-header">
-                    <div class="line-number">51</div>
-                    <div class="stop-name">Dassault</div>
-                    <button class="refresh-btn" onclick="refreshStop('51-dassault')">⟳</button>
+                    <div class="stop-name">📍 Dassault</div>
+                    <button class="refresh-btn" onclick="refreshStop('dassault-51')">⟳</button>
                 </div>
-                <div id="bus-51-dassault"><div class="loading">⏳ Chargement…</div></div>
+                <div id="bus-dassault-51"><div class="loading">⏳ Chargement…</div></div>
             </div>
 
             <div class="bus-stop">
                 <div class="bus-stop-header">
-                    <div class="line-number line-30">30</div>
-                    <div class="stop-name">5 Chemin</div>
-                    <button class="refresh-btn" onclick="refreshStop('30-chemin')">⟳</button>
+                    <div class="stop-name">📍 Dassault</div>
+                    <button class="refresh-btn" onclick="refreshStop('dassault-1')">⟳</button>
                 </div>
-                <div id="bus-30-chemin"><div class="loading">⏳ Chargement…</div></div>
+                <div id="bus-dassault-1"><div class="loading">⏳ Chargement…</div></div>
+            </div>
+
+            <div class="bus-stop">
+                <div class="bus-stop-header">
+                    <div class="stop-name">📍 5 Chemins</div>
+                    <button class="refresh-btn" onclick="refreshStop('5-chemin')">⟳</button>
+                </div>
+                <div id="bus-5-chemin"><div class="loading">⏳ Chargement…</div></div>
+            </div>
+
+            <div class="bus-stop">
+                <div class="bus-stop-header">
+                    <div class="stop-name">📍 Toussaint Catros</div>
+                    <button class="refresh-btn" onclick="refreshStop('toussaint-catros-1')">⟳</button>
+                </div>
+                <div id="bus-toussaint-catros-1"><div class="loading">⏳ Chargement…</div></div>
+            </div>
+
+            <div class="bus-stop">
+                <div class="bus-stop-header">
+                    <div class="stop-name">📍 Toussaint Catros</div>
+                    <button class="refresh-btn" onclick="refreshStop('toussaint-catros-2')">⟳</button>
+                </div>
+                <div id="bus-toussaint-catros-2"><div class="loading">⏳ Chargement…</div></div>
             </div>
         </div>
 

@@ -1,23 +1,84 @@
 const API_KEY = "opendata-bordeaux-metropole-flux-gtfs-rt";
 const API_BASE = "https://bdx.mecatran.com/utw/ws/siri/2.0/bordeaux/stop-monitoring.json";
 
-// Codes d'arrêt et lignes en dur
-const STOP_CODES = {
-    "51-merignac": { 
-        stop: "bordeaux:StopPoint:BP:2456:LOC",
-        line: "bordeaux:Line:51:LOC"
+// Configuration des arrêts avec plusieurs lignes
+const STOP_CONFIGS = {
+    "merignac-centre": {
+        stopName: "Mérignac Centre (Médiathèque)",
+        stopCode: "bordeaux:StopPoint:BP:2456:LOC",
+        lines: [
+            { lineRef: "bordeaux:Line:51:LOC", lineNumber: "51", color: "#4a4a46" },
+            { lineRef: "bordeaux:Line:30:LOC", lineNumber: "30", color: "#76b72b" },
+            { lineRef: "bordeaux:Line:01:LOC", lineNumber: "1", color: "#00b1ed" }
+        ]
     },
-    "30-truc": { 
-        stop: "bordeaux:StopPoint:BP:3111:LOC",
-        line: "bordeaux:Line:30:LOC"
+    "avenue-truc": {
+        stopName: "Avenue du Truc",
+        stopCode: "bordeaux:StopPoint:BP:3111:LOC",
+        lines: [
+            { lineRef: "bordeaux:Line:30:LOC", lineNumber: "30", color: "#76b72b" }
+        ]
     },
-    "51-dassault": { 
-        stop: "bordeaux:StopPoint:BP:8650:LOC",
-        line: "bordeaux:Line:51:LOC"
+    "beaudesert": {
+        stopName: "Beaudésert",
+        stopCode: "bordeaux:StopPoint:BP:5760:LOC",
+        lines: [
+            { lineRef: "bordeaux:Line:51:LOC", lineNumber: "51", color: "#4a4a46" },
+            { lineRef: "bordeaux:Line:01:LOC", lineNumber: "1", color: "#00b1ed" }
+        ]
     },
-    "30-chemin": { 
-        stop: "bordeaux:StopPoint:BP:1145:LOC",
-        line: "bordeaux:Line:30:LOC"
+    "dassault-39": {
+        stopName: "Dassault",
+        stopCode: "bordeaux:StopPoint:BP:8649:LOC",
+        lines: [
+            { lineRef: "bordeaux:Line:39:LOC", lineNumber: "39", color: "#00b1ed" },
+            { lineRef: "bordeaux:Line:439:LOC", lineNumber: "39 EST", color: "#00b1ed" }
+        ]
+    },
+    "5-chemins-39": {
+        stopName: "5 Chemins (Le Haillan)",
+        stopCode: "bordeaux:StopPoint:BP:9324:LOC",
+        lines: [
+            { lineRef: "bordeaux:Line:39:LOC", lineNumber: "39", color: "#00b1ed" },
+            { lineRef: "bordeaux:Line:439:LOC", lineNumber: "39 EST", color: "#00b1ed" }
+        ]
+    },
+    "dassault-51": {
+        stopName: "Dassault",
+        stopCode: "bordeaux:StopPoint:BP:8649:LOC",
+        lines: [
+            { lineRef: "bordeaux:Line:51:LOC", lineNumber: "51", color: "#4a4a46" }
+        ]
+    },
+    "dassault-1": {
+        stopName: "Dassault",
+        stopCode: "bordeaux:StopPoint:BP:5758:LOC",
+        lines: [
+            { lineRef: "bordeaux:Line:01:LOC", lineNumber: "1", color: "#00b1ed" }
+        ]
+    },
+    "5-chemin": {
+        stopName: "5 Chemins",
+        stopCode: "bordeaux:StopPoint:BP:1145:LOC",
+        lines: [
+            { lineRef: "bordeaux:Line:30:LOC", lineNumber: "30", color: "#76b72b" }
+        ]
+    },
+    "toussaint-catros-1": {
+        stopName: "Toussaint Catros",
+        stopCode: "bordeaux:StopPoint:BP:5755:LOC",
+        lines: [
+            { lineRef: "bordeaux:Line:39:LOC", lineNumber: "39", color: "#00b1ed" },
+            { lineRef: "bordeaux:Line:439:LOC", lineNumber: "39 EST", color: "#00b1ed" }
+        ]
+    },
+    "toussaint-catros-2": {
+        stopName: "Toussaint Catros",
+        stopCode: "bordeaux:StopPoint:BP:5756:LOC",
+        lines: [
+            { lineRef: "bordeaux:Line:39:LOC", lineNumber: "39", color: "#00b1ed" },
+            { lineRef: "bordeaux:Line:439:LOC", lineNumber: "39 EST", color: "#00b1ed" }
+        ]
     }
 };
 
@@ -25,19 +86,39 @@ let currentTab = "aller";
 
 const ALL_STOPS = {
     aller: [
-        { key: "51-merignac" },
-        { key: "30-truc" }
+        { key: "merignac-centre" },
+        { key: "avenue-truc" },
+        { key: "beaudesert" },
+        { key: "dassault-39" },
+        { key: "5-chemins-39" }
     ],
     retour: [
-        { key: "51-dassault" },
-        { key: "30-chemin" }
+        { key: "dassault-51" },
+        { key: "dassault-1" },
+        { key: "5-chemin" },
+        { key: "toussaint-catros-1" },
+        { key: "toussaint-catros-2" }
     ]
 };
 
-// Chargement initial
+function setDefaultTab() {
+    const currentHour = new Date().getHours();
+
+    if (currentHour >= 12) {
+        const retourTab = document.querySelector('.tab:last-child');
+        switchTab('retour', retourTab);
+    }
+}
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log('Service Worker enregistré'))
+        .catch((err) => console.log('Erreur Service Worker:', err));
+}
+
+setDefaultTab();
 refreshAllStops();
 
-/* ------------ TABS ----------- */
 function switchTab(tab, el) {
     currentTab = tab;
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -46,11 +127,9 @@ function switchTab(tab, el) {
     document.getElementById("aller-content").classList.toggle("hidden", tab !== "aller");
     document.getElementById("retour-content").classList.toggle("hidden", tab !== "retour");
     
-    // Rafraîchir les données du nouvel onglet
     refreshAllStops();
 }
 
-/* ------------ API TBM ----------- */
 async function fetchBusData(stopCode, lineRef) {
     if (!stopCode) return { error: "Code arrêt non configuré" };
 
@@ -84,56 +163,81 @@ function formatTime(timeStr) {
     return t.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
 }
 
-/* ----------- AFFICHAGE ----------- */
-function displayBusData(elementId, visits) {
+function displayBusData(elementId, linesData) {
     const el = document.getElementById(elementId);
 
-    if (visits.error) {
-        el.innerHTML = `<div class="error">⚠️ ${visits.error}</div>`;
-        return;
-    }
-    if (visits.empty) {
-        el.innerHTML = `<div class="warning">Aucun bus dans l'heure</div>`;
-        return;
-    }
-
     let html = "";
-    visits.slice(0, 5).forEach(v => {
-        const j = v.MonitoredVehicleJourney;
-        const call = j.MonitoredCall;
 
-        const dest = j.DestinationName?.[0]?.value ||
-                     j.DirectionName?.[0]?.value ||
-                     "Destination inconnue";
+    for (const lineData of linesData) {
+        const { lineNumber, color, visits } = lineData;
 
-        const time = call.ExpectedDepartureTime ||
-                     call.ExpectedArrivalTime ||
-                     call.AimedDepartureTime ||
-                     call.AimedArrivalTime;
+        if (visits.error) {
+            html += `<div class="line-section">
+                <div class="line-badge" style="background: ${color};">${lineNumber}</div>
+                <div class="error">⚠️ ${visits.error}</div>
+            </div>`;
+            continue;
+        }
 
-        if (!time) return;
+        if (visits.empty || !visits.length) {
+            html += `<div class="line-section">
+                <div class="line-badge" style="background: ${color};">${lineNumber}</div>
+                <div class="warning">Aucun bus dans l'heure</div>
+            </div>`;
+            continue;
+        }
 
-        html += `
-        <div class="bus-time">
-            <div class="destination">→ ${dest}</div>
-            <div class="time">${formatTime(time)}</div>
-        </div>`;
-    });
+        let lineHtml = `<div class="line-section">
+            <div class="line-badge" style="background: ${color};"> ${lineNumber}</div>`;
+
+        visits.slice(0, 3).forEach(v => {
+            const j = v.MonitoredVehicleJourney;
+            const call = j.MonitoredCall;
+
+            const dest = j.DestinationName?.[0]?.value ||
+                         j.DirectionName?.[0]?.value ||
+                         "Destination inconnue";
+
+            const time = call.ExpectedDepartureTime ||
+                         call.ExpectedArrivalTime ||
+                         call.AimedDepartureTime ||
+                         call.AimedArrivalTime;
+
+            if (!time) return;
+
+            lineHtml += `
+            <div class="bus-time">
+                <div class="destination">→ ${dest}</div>
+                <div class="time">${formatTime(time)}</div>
+            </div>`;
+        });
+
+        lineHtml += `</div>`;
+        html += lineHtml;
+    }
 
     el.innerHTML = html || `<div class="warning">Aucun horaire disponible</div>`;
     document.getElementById("last-update").innerText =
         "Mise à jour : " + new Date().toLocaleTimeString("fr-FR");
 }
 
-/* ----------- REFRESH ----------- */
 async function refreshStop(key) {
-    const config = STOP_CODES[key];
+    const config = STOP_CONFIGS[key];
     const el = document.getElementById("bus-" + key);
 
     el.innerHTML = `<div class="loading">⏳ Chargement…</div>`;
 
-    const data = await fetchBusData(config.stop, config.line);
-    displayBusData("bus-" + key, data);
+    const linesData = [];
+    for (const line of config.lines) {
+        const visits = await fetchBusData(config.stopCode, line.lineRef);
+        linesData.push({
+            lineNumber: line.lineNumber,
+            color: line.color,
+            visits: visits
+        });
+    }
+
+    displayBusData("bus-" + key, linesData);
 }
 
 async function refreshAllStops() {
@@ -142,6 +246,40 @@ async function refreshAllStops() {
     }
 }
 
-// Rafraîchissement automatique toutes les 30 secondes
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
 
-setInterval(refreshAllStops, 30000);
+const contentArea = document.querySelector('.content');
+
+contentArea.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+contentArea.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const horizontalDistance = touchEndX - touchStartX;
+    const verticalDistance = Math.abs(touchEndY - touchStartY);
+
+    if (Math.abs(horizontalDistance) > swipeThreshold && Math.abs(horizontalDistance) > verticalDistance) {
+        if (horizontalDistance > 0) {
+            if (currentTab === "retour") {
+                const allerTab = document.querySelector('.tab:first-child');
+                switchTab('aller', allerTab);
+            }
+        } else {
+            if (currentTab === "aller") {
+                const retourTab = document.querySelector('.tab:last-child');
+                switchTab('retour', retourTab);
+            }
+        }
+    }
+}

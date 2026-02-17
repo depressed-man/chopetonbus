@@ -42,19 +42,31 @@ body {
 .bus-stop-header {
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f0f0f0;
 }
-.line-number {
+.stop-name { font-size: 18px; font-weight: 700; color: #333; flex: 1; }
+.line-section {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.line-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.line-badge {
     background: #667eea;
     color: white;
     font-weight: bold;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 18px;
-    margin-right: 12px;
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 8px;
 }
-.line-number.line-30 { background: #e74c3c; }
-.stop-name { font-size: 16px; font-weight: 600; color: #333; flex: 1; }
 .refresh-btn {
     background: #667eea;
     color: white;
