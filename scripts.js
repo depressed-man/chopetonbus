@@ -8,7 +8,7 @@ const STOP_CONFIGS = {
         stopCode: "bordeaux:StopPoint:BP:2456:LOC",
         lines: [
             { lineRef: "bordeaux:Line:51:LOC", lineNumber: "51", color: "#4a4a46" },
-            { lineRef: "bordeaux:Line:30:LOC", lineNumber: "30", color: "#76b72b" },
+            { lineRef: "bordeaux:Line:30:LOC", lineNumber: "30", color: "#76b72b", stopCode: "bordeaux:StopPoint:BP:2273:LOC" },
             { lineRef: "bordeaux:Line:01:LOC", lineNumber: "1", color: "#00b1ed" }
         ]
     },
@@ -21,7 +21,7 @@ const STOP_CONFIGS = {
     },
     "beaudesert": {
         stopName: "Beaudésert",
-        stopCode: "bordeaux:StopPoint:BP:5760:LOC",
+        stopCode: "bordeaux:StopPoint:BP:2239:LOC",
         lines: [
             { lineRef: "bordeaux:Line:51:LOC", lineNumber: "51", color: "#4a4a46" },
             { lineRef: "bordeaux:Line:01:LOC", lineNumber: "1", color: "#00b1ed" }
@@ -45,7 +45,7 @@ const STOP_CONFIGS = {
     },
     "dassault-51": {
         stopName: "Dassault",
-        stopCode: "bordeaux:StopPoint:BP:8649:LOC",
+        stopCode: "bordeaux:StopPoint:BP:8650:LOC",
         lines: [
             { lineRef: "bordeaux:Line:51:LOC", lineNumber: "51", color: "#4a4a46" }
         ]
@@ -229,7 +229,7 @@ async function refreshStop(key) {
 
     const linesData = [];
     for (const line of config.lines) {
-        const visits = await fetchBusData(config.stopCode, line.lineRef);
+        const visits = await fetchBusData(line.stopCode || config.stopCode, line.lineRef);
         linesData.push({
             lineNumber: line.lineNumber,
             color: line.color,
